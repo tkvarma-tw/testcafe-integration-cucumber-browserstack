@@ -1,0 +1,8 @@
+{
+    "build":"Test Build",
+    "project":"ESS Take Register Tests",
+    "name": "All Tests",
+    "browserstack.debug":true,
+    "browserstack.console":"errors",
+    "browserstack.networkLogs":true 
+}

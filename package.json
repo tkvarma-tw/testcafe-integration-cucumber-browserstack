@@ -1,0 +1,43 @@
+{
+  "name": "testcafe_cucumber",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "run-script-os",
+    "posttest": "cross-env-shell testEnv=$ENV node report-generator.js",
+
+    "pretest:darwin:linux": "rm -rf reports/screenshots reports/report.html",
+    "test:darwin:linux": "testEnv=$ENV cucumber-js --format json:./reports/report.json --parallel $PARALLEL --world-parameters \"{\\\"browser\\\": \\\"$BROWSER\\\"}\" || :",
+    "test-chrome-qa": "ENV=qa PARALLEL=3 BROWSER=chrome npm test",
+    "test-chrome-headless-qa": "ENV=qa PARALLEL=3 BROWSER=chrome:headless npm test",
+    "test-featurefile": " npm run pretest:darwin:linux; testEnv=$ENV cucumber-js features/featurefiles/$FEATURE --format json:./reports/report.json --parallel 1 --world-parameters \"{\\\"browser\\\": \\\"chrome\\\"}\"; npm run posttest",
+    "test-chrome-dev": "ENV=dev PARALLEL=3 BROWSER=chrome npm test",
+    "test-safari-qa": "ENV=qa PARALLEL=3 BROWSER=safari npm test",
+    "test-safari-dev": "ENV=dev PARALLEL=3 BROWSER=safari npm test",
+
+    "test-browserstack-featurefile": " npm run pretest:darwin:linux; testEnv=$ENV cucumber-js features/featurefiles/$FEATURE --format json:./reports/report.json --parallel 1 --world-parameters \"{\\\"browser\\\": \\\"browserstack:Chrome\\\"}\"; npm run posttest",
+    "test-chrome-browserstack-qa": "ENV=qa PARALLEL=1 BROWSER=browserstack:Chrome npm test",
+    "test-chrome-browserstack-dev": "ENV=dev PARALLEL=1 BROWSER=browserstack:Chrome npm test",
+
+    "pretest:win32": "cd reports && (if exist screenshots rmdir /s /q screenshots) && del /s /q report.html && cd ..",
+    "test:win32": "cross-env-shell testEnv=$ENV cucumber-js --format json:./reports/report.json --parallel $PARALLEL &",
+    "test-chrome-qa-win": "cross-env ENV=qa PARALLEL=1 BROWSER=chrome npm test",
+    "test-featurefile-win": "npm run pretest:win32 &&cross-env-shell testEnv=$ENV cucumber-js features/featurefiles/$FEATURE --format json:./reports/report.json --parallel 1 && npm run posttest",
+    "test-featurefile-win-script": "cross-env ENV=qa FEATURE=placeOrder.feature npm run test-featurefile-win"
+
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "base64-img": "^1.0.4",
+    "browserstack-local": "^1.4.8",
+    "cross-env": "^7.0.3",
+    "cucumber": "^6.0.5",
+    "cucumber-html-reporter": "^5.4.0",
+    "mssql": "^7.2.0",
+    "run-script-os": "^1.1.6",
+    "testcafe": "^1.15.2",
+    "testcafe-browser-provider-browserstack": "^1.13.2-alpha.1"
+  }
+}
